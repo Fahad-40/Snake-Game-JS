@@ -1,5 +1,5 @@
 let board = document.querySelector(".board");;
-;const startButton = document.querySelector(".btn-start");
+; const startButton = document.querySelector(".btn-start");
 const restartButton = document.querySelector(".btn-restart");
 const modal = document.querySelector(".modal");
 const startGameModal = document.querySelector(".start-game");
@@ -12,7 +12,9 @@ const timeElement = document.querySelector("#time");
 let blockHeight = 30;
 let blockWidth = 30;
 
-let highScore = 0;
+let highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
+highScoreElement.innerText = highScore;
+
 let score = 0;
 let time = `00-00`;
 
@@ -73,7 +75,7 @@ function render() {
         return;
     }
 
-// 
+    // 
     if (head.x == food.x && head.y == food.y) {
         blocks[`${food.x}-${food.y}`].classList.remove("food")
         food = {
@@ -86,7 +88,7 @@ function render() {
 
         if (score > highScore) {
             highScore = score;
-            localStorage.setItem("highScore" , JSON.stringify(highScore))
+            localStorage.setItem("highScore", JSON.stringify(highScore))
         }
     }
 
@@ -111,26 +113,31 @@ startButton.addEventListener("click", () => {
 
 })
 
-restartButton.addEventListener("click" , restartGame);
+restartButton.addEventListener("click", restartGame);
 
 function restartGame() {
 
- clearInterval(intervalId); 
+    clearInterval(intervalId);
 
-  blocks[`${food.x}-${food.y}`].classList.remove("food");
-      snake.forEach(segment => {
+    score = 0;
+    scoreElement.innerHTML = score;
+
+highScoreElement.innerText = highScore;
+
+    blocks[`${food.x}-${food.y}`].classList.remove("food");
+    snake.forEach(segment => {
         blocks[`${segment.x}-${segment.y}`].classList.remove("fill");
     });
     modal.style.display = "none";
-    direction = "right"; 
+    direction = "right";
     snake = [
-    { x: 1, y: 3 },
-]
- food = {
-            x: Math.floor(Math.random() * rows),
-            y: Math.floor(Math.random() * cols)
-        }
-          intervalId = setInterval(() => {
+        { x: 1, y: 3 },
+    ]
+    food = {
+        x: Math.floor(Math.random() * rows),
+        y: Math.floor(Math.random() * cols)
+    }
+    intervalId = setInterval(() => {
         render();
     }, 300);
 }
