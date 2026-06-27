@@ -83,6 +83,11 @@ function render() {
         snake.unshift(head)
         score += 10;
         highScoreElement.innerHTML = score;
+
+        if (score > highScore) {
+            highScore = score;
+            localStorage.setItem("highScore" , JSON.stringify(highScore))
+        }
     }
 
     snake.forEach(segment => {
