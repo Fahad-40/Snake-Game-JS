@@ -16,7 +16,7 @@ let highScore = JSON.parse(localStorage.getItem("highScore")) || 0;
 highScoreElement.innerText = highScore;
 
 let score = 0;
-let time = `00-00`;
+let time = `00:00`;
 
 let cols = Math.floor(board.clientWidth / blockWidth);
 let rows = Math.floor(board.clientHeight / blockHeight);
@@ -31,7 +31,10 @@ let blocks = [];
 let snake = [
     { x: 1, y: 3 },
 ]
+
 let intervalId;
+let timerItervalId;
+
 let direction = "right";
 
 for (let row = 0; row < rows; row++) {
@@ -111,6 +114,25 @@ startButton.addEventListener("click", () => {
         render();
     }, 300);
 
+    timerItervalId = setInterval(() => {
+
+        let [min, sec] = time.split(":").map(Number);
+
+        sec++;
+
+        if (sec === 60) {
+            sec = 0;
+            min += 1;
+        }
+
+        let formatedMin = min < 10 ? `0${min}` : `${min}`
+        let formatedSec = sec < 10 ? `0${sec}` : `${sec}`
+
+        time = `${formatedMin} : ${formatedSec}`
+        timeElement.innerHTML = time;
+    }, 1000);
+
+
 })
 
 restartButton.addEventListener("click", restartGame);
@@ -118,11 +140,15 @@ restartButton.addEventListener("click", restartGame);
 function restartGame() {
 
     clearInterval(intervalId);
+    clearInterval(timerItervalId);
+
+    time = "00:00";
+    timeElement.innerHTML = time;
 
     score = 0;
     scoreElement.innerHTML = score;
 
-highScoreElement.innerText = highScore;
+    highScoreElement.innerText = highScore;
 
     blocks[`${food.x}-${food.y}`].classList.remove("food");
     snake.forEach(segment => {
@@ -140,6 +166,25 @@ highScoreElement.innerText = highScore;
     intervalId = setInterval(() => {
         render();
     }, 300);
+
+    timerItervalId = setInterval(() => {
+
+        let [min, sec] = time.split(":").map(Number);
+
+        sec++;
+
+        if (sec === 60) {
+            sec = 0;
+            min += 1;
+        }
+
+        let formatedMin = min < 10 ? `0${min}` : `${min}`
+        let formatedSec = sec < 10 ? `0${sec}` : `${sec}`
+
+        time = `${formatedMin} : ${formatedSec}`
+        timeElement.innerHTML = time;
+    }, 1000);
+
 }
 
 addEventListener("keydown", (e) => {
