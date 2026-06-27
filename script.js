@@ -81,6 +81,8 @@ function render() {
             y: Math.floor(Math.random() * cols)
         }
         snake.unshift(head)
+        score += 10;
+        highScoreElement.innerHTML = score;
     }
 
     snake.forEach(segment => {
