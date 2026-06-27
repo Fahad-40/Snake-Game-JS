@@ -82,7 +82,7 @@ function render() {
         }
         snake.unshift(head)
         score += 10;
-        highScoreElement.innerHTML = score;
+        scoreElement.textContent = score;
 
         if (score > highScore) {
             highScore = score;
